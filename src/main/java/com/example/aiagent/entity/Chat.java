@@ -22,7 +22,8 @@ public class Chat {
 
     public Chat(){}
 
-    public Chat(String question , String answer){
+    public Chat(String question ,
+                String answer){
         this.question = question;
         this.answer  =answer;
         this.timestamp = LocalDateTime.now();

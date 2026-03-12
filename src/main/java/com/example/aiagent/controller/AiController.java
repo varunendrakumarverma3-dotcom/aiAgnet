@@ -26,9 +26,8 @@ public class AiController {
     }
 
     @GetMapping("/chat")
-    public ChatResponse chat(@RequestParam String message) {
-        String answer = aiService.getChat(message);
-        return new ChatResponse(message, answer);
+    public String chat(@RequestParam String message) {
+        return aiService.getChat(message);
     }
 
 

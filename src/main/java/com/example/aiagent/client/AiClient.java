@@ -1,6 +1,7 @@
 package com.example.aiagent.client;
 
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -9,8 +10,15 @@ import java.util.*;
 @Component
 public class AiClient {
 
-    private final RestTemplate restTemplate = new RestTemplate();
+//    private final RestTemplate restTemplate = new RestTemplate();
+private final RestTemplate restTemplate;
 
+    public AiClient() {
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        factory.setConnectTimeout(60000);
+        factory.setReadTimeout(60000);
+        this.restTemplate = new RestTemplate(factory);
+    }
     public String generate(String message) {
 
         String url = "http://localhost:11434/api/chat";
@@ -43,19 +51,24 @@ public class AiClient {
             Map<String, Object> body = response.getBody();
 
             if (body == null) {
-                return "Empty AI response";
+                return "AI returned empty response";
             }
 
-            Object msg = body.get("message");
+            System.out.println("Ollama response: " + body);
 
-            if (!(msg instanceof Map)) {
-                return "Unexpected AI response format";
+            Map<String, Object> messageObj = (Map<String, Object>) body.get("message");
+
+            if (messageObj == null) {
+                return "AI message missing";
             }
 
-            Map<String, Object> messageObj = (Map<String, Object>) msg;
+            Object content = messageObj.get("content");
 
-            return messageObj.get("content").toString();
+            if (content == null) {
+                return "AI returned no content";
+            }
 
+            return content.toString();
         } catch (Exception e) {
 
             e.printStackTrace();

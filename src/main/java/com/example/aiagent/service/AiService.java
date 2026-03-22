@@ -27,7 +27,7 @@ public class AiService {
 
         chatMemory.add("User :" + message);
 
-        String context = chatMemory.getContext();
+        String context = chatMemory.getContext() + "\nAI:";
 
         String response = aiClient.generate(context);
 

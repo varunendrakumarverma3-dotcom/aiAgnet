@@ -1,9 +1,6 @@
 package com.example.aiagent.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -14,15 +11,18 @@ public class Chat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(columnDefinition = "Text")
     private String question;
 
+    @Column(columnDefinition = "Text")
     private String answer;
 
     private LocalDateTime timestamp;
 
     public Chat(){}
 
-    public Chat(String question , String answer){
+    public Chat(String question ,
+                String answer){
         this.question = question;
         this.answer  =answer;
         this.timestamp = LocalDateTime.now();

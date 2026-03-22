@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins="http://localhost:3000")
+@CrossOrigin(origins="http://localhost:4200")
 public class AiController {
 
     private final AiService aiService;
@@ -26,9 +26,8 @@ public class AiController {
     }
 
     @GetMapping("/chat")
-    public ChatResponse chat(@RequestParam String message) {
-        String answer = aiService.getChat(message);
-        return new ChatResponse(message, answer);
+    public String chat(@RequestParam String message) {
+        return aiService.getChat(message);
     }
 
 
